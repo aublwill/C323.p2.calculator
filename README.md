@@ -34,7 +34,7 @@ The folowing **extensions** are implemented:
 * import kotlin.math.tan
   
 ## Video Walkthrough 
-https://github.com/aublwill/C323.p2.calculator/assets/143005409/8de6d26d-8e5e-4a99-a788-7563728325d6
+https://github.com/aublwill/C323.p2.calculator/assets/143005409/50047bca-8bef-4476-adca-4dfb52aac508
 
 ## Notes
 Answer is always in Double form with decimals
