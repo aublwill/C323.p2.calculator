@@ -15,7 +15,9 @@ import kotlin.math.sinh
 import kotlin.math.tan
 
 class MainActivity : AppCompatActivity() {
-
+    /* create variables to label textView and keep track
+    of previous inputs by user
+     */
     lateinit var numView:TextView
 
     var prev = false
@@ -32,13 +34,22 @@ class MainActivity : AppCompatActivity() {
     val text_key = "text"
 
 
+    /*
+    override create method which creates functionality for the buttons
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
+        /*
+        set initial layout
+         */
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         //create buttons and button functionality
         numView = findViewById<TextView>(R.id.tvNumView)
 
+        /*
+        saves variables to survive orientation change
+         */
         if (savedInstanceState!=null){
             prev = savedInstanceState.getBoolean(prev_key)
             op = savedInstanceState.getString(op_key).toString()
@@ -48,7 +59,10 @@ class MainActivity : AppCompatActivity() {
                 numView.text = savedInstanceState.getString(text_key)
             }
         }
-
+/*
+label buttons and set
+click listeners for all buttons
+ */
         //clears screen/inputs
         var bC = findViewById<Button>(R.id.bC)
         bC.setOnClickListener{
@@ -60,7 +74,10 @@ class MainActivity : AppCompatActivity() {
             count = 0
             Log.i("Calculator", "user pressed 'C'")
         }
-        //number clicks
+        /*
+        for each number button pressed,
+        call method 'numClick' to update variables and screen
+         */
         var b0 = findViewById<Button>(R.id.b0)
         b0.setOnClickListener {numClick(b0, numView)
             Log.i("Calculator", "user pressed '0'")}
@@ -91,6 +108,7 @@ class MainActivity : AppCompatActivity() {
         var b9 = findViewById<Button>(R.id.b9)
         b9.setOnClickListener {numClick(b9, numView)
             Log.i("Calculator", "user pressed '9'")}
+        //resets values, shows current answer
         var eq = findViewById<Button>(R.id.bEqual)
         eq.setOnClickListener {
             equal(numView)
@@ -100,7 +118,13 @@ class MainActivity : AppCompatActivity() {
             op2 = ""
             Log.i("Calculator", "user pressed '='")
         }
-        //operation clicks
+        /*
+        operation clicks:
+        each operation checks if this an ongoing operation (1+1+..)
+        update variables
+        calls method 'numClick' for further instructions based on variables and input
+         */
+        //addition
         var add = findViewById<Button>(R.id.bAdd)
         add.setOnClickListener {
             if (count>0)
@@ -113,6 +137,7 @@ class MainActivity : AppCompatActivity() {
             numClick(add, numView)
             prev = true
             Log.i("Calculator", "user pressed '+'")}
+        //subtraction
         var sub = findViewById<Button>(R.id.bSubtr)
         sub.setOnClickListener {
             if (count>0)
@@ -125,6 +150,7 @@ class MainActivity : AppCompatActivity() {
             numClick(sub, numView)
             prev = true
             Log.i("Calculator", "user pressed '-'")}
+        //multiplication
         var mul = findViewById<Button>(R.id.bMultip)
         mul.setOnClickListener {
             if (count>0)
@@ -137,6 +163,7 @@ class MainActivity : AppCompatActivity() {
             numClick(mul, numView)
             prev = true
             Log.i("Calculator", "user pressed 'X'")}
+        //division
         var div = findViewById<Button>(R.id.bDivide)
         div.setOnClickListener {
             if (count>0)
@@ -149,7 +176,10 @@ class MainActivity : AppCompatActivity() {
             numClick(div, numView)
             prev = true
             Log.i("Calculator", "user pressed '/'")}
-        //percent button
+        /*
+        percent button
+        divides current number on screen by 100
+         */
         var per = findViewById<Button>(R.id.bPercent)
         per.setOnClickListener {
             if (count>0)
@@ -170,13 +200,20 @@ class MainActivity : AppCompatActivity() {
             Log.i("Calculator", "user pressed '-'")
             if (numView.text.isNotEmpty()) {
                 if (numView.text.toString().toInt() < 0)
-                    numView.text = numView.text.toString().substring(0)
+                    numView.text = numView.text.toString().substring(1)
                 else {
                     numView.text = "-" + numView.text.toString()
                 }
             }
         }
 
+        /*
+        added buttons for landscape layout only
+        sin, cos, tan, log10, ln
+        takes the current number on screen and updates with new operation
+            as specified
+         */
+        //sin
         var sin: Button? = findViewById<Button>(R.id.bSin)
         if (sin != null) {
             sin.setOnClickListener {
@@ -187,6 +224,7 @@ class MainActivity : AppCompatActivity() {
                 Log.i("Calculator", "user pressed 'sin'")
             }
         }
+        //cos
         var cos: Button? = findViewById<Button>(R.id.bCos)
         if (cos != null) {
             cos.setOnClickListener {
@@ -197,6 +235,7 @@ class MainActivity : AppCompatActivity() {
                 Log.i("Calculator", "user pressed 'cos'")
             }
         }
+        //tan
         var tan: Button? = findViewById<Button>(R.id.bTan)
         if (tan != null) {
             tan.setOnClickListener {
@@ -207,6 +246,7 @@ class MainActivity : AppCompatActivity() {
                 Log.i("Calculator", "user pressed 'tan'")
             }
         }
+        //log10 in base 10
         var log: Button? = findViewById<Button>(R.id.bLog10)
         if (log != null) {
             log.setOnClickListener {
@@ -217,6 +257,7 @@ class MainActivity : AppCompatActivity() {
                 Log.i("Calculator", "user pressed 'log10'")
             }
         }
+        //ln
         var ln: Button? = findViewById<Button>(R.id.bln)
         if (ln != null) {
             ln.setOnClickListener {
@@ -228,7 +269,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    //function for number clicks
+    /*
+    base function which takes the button pressed and current text view as inputs
+    updates variables and screen
+     */
     fun numClick(num: Button, view: TextView){
         if (prev.equals(true)&&op!=""){
             view.text = num.text
@@ -289,6 +333,9 @@ class MainActivity : AppCompatActivity() {
         count = 0
     }
 
+    /*
+    recovers saved variables updates to handle screen change
+     */
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         savedInstanceState.putBoolean(prev_key, prev)
         savedInstanceState.putString(op_key, op)
