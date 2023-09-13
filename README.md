@@ -1,5 +1,6 @@
 (Go to 'C323p2Calculator' folder/directory to access most updated version)
-#Collaboration with Kuzey Bektas
+
+Collaboration with Kuzey Bektas
 
 # C323.p2.calculator
 This project has the functions the same as an iPhone calculator app. 
